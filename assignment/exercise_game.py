@@ -101,7 +101,11 @@ def scorer(t: list[int | None]) -> None:
     now: tuple[int] = time.localtime()
 
     now_str = "-".join(map(str, now[:3])) + "T" + "_".join(map(str, now[3:6]))
-    filename = f"score-{now_str}.json"
+    directory = '/Users/yidi/Desktop/2024-mini/json_file/'
+    filename = os.path.join(directory, f"score-{now_str}.json")
+    if not os.path.exists(directory):
+            os.makedirs(directory)
+    
 
     print("write", filename)
 
@@ -111,7 +115,7 @@ def scorer(t: list[int | None]) -> None:
 if __name__ == "__main__":
     # using "if __name__" allows us to reuse functions in other script files
 
-    led = Pin("LED", Pin.OUT)
+    led = Pin(16, Pin.OUT)
     button = Pin(16, Pin.IN, Pin.PULL_UP)
 
     t: list[int | None] = []
@@ -123,11 +127,11 @@ if __name__ == "__main__":
 
         led.high()
 
-        tic = time.ticks_ms()
+        tic = time.time() * 1000
         t0 = None
-        while time.ticks_diff(time.ticks_ms(), tic) < on_ms:
+        while (time.time() * 1000 - tic) < on_ms:
             if button.value() == 0:
-                t0 = time.ticks_diff(time.ticks_ms(), tic)
+                t0 = time.time() * 1000 - tic
                 led.low()
                 break
         t.append(t0)
