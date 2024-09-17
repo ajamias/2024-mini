@@ -79,10 +79,13 @@ def scorer(t: list[int | None]) -> None:
         min_time = min(t_good)
         max_time = max(t_good)
         avg_time = sum(t_good) / len(t_good)
+        print(f"Average response time: {avg_time} ms")
+        print(f"Minimum response time: {min_time} ms")
+        print(f"Maximum response time: {max_time} ms")
     else:
         max_time = min_time = avg_time = None
-    score = (len(t) - misses) / len(t)
-
+        
+    score = (len(t_good) / len(t)) if len(t) else 0.0
     print(t_good)
 
     # add key, value to this dict to store the minimum, maximum, average response time
@@ -101,21 +104,22 @@ def scorer(t: list[int | None]) -> None:
     now: tuple[int] = time.localtime()
 
     now_str = "-".join(map(str, now[:3])) + "T" + "_".join(map(str, now[3:6]))
-    directory = '/Users/yidi/Desktop/2024-mini/json_file/'
-    filename = os.path.join(directory, f"score-{now_str}.json")
-    if not os.path.exists(directory):
-            os.makedirs(directory)
+    
+    filename = f"score-{now_str}.json"
+    
     
 
     print("write", filename)
 
     write_json(filename, data)
 
+    return data
+
 
 if __name__ == "__main__":
     # using "if __name__" allows us to reuse functions in other script files
 
-    led = Pin(16, Pin.OUT)
+    led = Pin("LED, Pin.OUT)
     button = Pin(16, Pin.IN, Pin.PULL_UP)
 
     t: list[int | None] = []
@@ -127,11 +131,11 @@ if __name__ == "__main__":
 
         led.high()
 
-        tic = time.time() * 1000
+        tic = time.ticks_ms()
         t0 = None
-        while (time.time() * 1000 - tic) < on_ms:
+        while time.ticks_diff(time.ticks_ms(), tic) < on_ms:
             if button.value() == 0:
-                t0 = time.time() * 1000 - tic
+                t0 = time.ticks_diff(time.ticks_ms(), tic)
                 led.low()
                 break
         t.append(t0)
