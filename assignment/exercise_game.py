@@ -6,6 +6,29 @@ from machine import Pin
 import time
 import random
 import json
+import os
+
+class Pin:
+        OUT = 0
+        IN = 1
+        PULL_UP = 2
+        def __init__(self, pin_number, mode, pull=None):
+            self.pin_number = pin_number
+            self.mode = mode
+            self.state = 0
+            
+        def low(self):
+            self.state = 0
+            print(f"Pin {self.pin_number} set LOW")
+        def high(self):
+            self.state = 1
+            print(f"Pin {self.pin_number} set HIGH
+
+        def value(self):
+            return random.choice([0,1])
+           
+            
+    
 
 
 N: int = 3
@@ -52,12 +75,26 @@ def scorer(t: list[int | None]) -> None:
 
     t_good = [x for x in t if x is not None]
 
+    if t_good:
+        min_time = min(t_good)
+        max_time = max(t_good)
+        avg_time = sum(t_good) / len(t_good)
+    else:
+        max_time = min_time = avg_time = None
+    score = (len(t) - misses) / len(t)
+
     print(t_good)
 
     # add key, value to this dict to store the minimum, maximum, average response time
     # and score (non-misses / total flashes) i.e. the score a floating point number
     # is in range [0..1]
-    data = {}
+    data = {
+        "min_time": min_time,
+        "max_time": max_time,
+        "average_time": avg_time,
+        "score": score,
+        "misses": misses
+    }
 
     # %% make dynamic filename and write JSON
 
