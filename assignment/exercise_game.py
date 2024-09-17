@@ -8,24 +8,7 @@ import random
 import json
 import os
 
-class Pin:
-        OUT = 0
-        IN = 1
-        PULL_UP = 2
-        def __init__(self, pin_number, mode, pull=None):
-            self.pin_number = pin_number
-            self.mode = mode
-            self.state = 0
-            
-        def low(self):
-            self.state = 0
-            print(f"Pin {self.pin_number} set LOW")
-        def high(self):
-            self.state = 1
-            print(f"Pin {self.pin_number} set HIGH
 
-        def value(self):
-            return random.choice([0,1])
            
             
     
