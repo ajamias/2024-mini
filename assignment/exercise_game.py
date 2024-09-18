@@ -91,8 +91,9 @@ def scorer(t: list[int | None]) -> None:
         "min_time": min_time,
         "max_time": max_time,
         "average_time": avg_time,
-        "score": score,
-        "misses": misses
+        "misses": misses,
+        "total_flashes": len(t),
+        "non_misses": len(t_good),
     }
 
     # %% make dynamic filename and write JSON
