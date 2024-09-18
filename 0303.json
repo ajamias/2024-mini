@@ -1,0 +1,28 @@
+{
+    "-O6wSCiZI7hVuQSnBg9O": {
+      "misses": 10,
+      "non_misses": 0,
+      "total_flashes": 10
+    },
+    "-O6wnDCRzggTGfd2j-HC": {
+      "avg_time_ms": 285,
+      "max_time_ms": 341,
+      "min_time_ms": 239,
+      "misses": 5,
+      "non_misses": 5,
+      "total_flashes": 10
+    },
+    "-O7xFvDZI8mHtPnAq1Bc": {
+      "avg_time_ms": 310,
+      "max_time_ms": 400,
+      "min_time_ms": 250,
+      "misses": 6,
+      "non_misses": 4,
+      "total_flashes": 10
+    },
+    "-O8yNbXRrbgKJfjSd9Uv": {
+      "misses": 8,
+      "non_misses": 2,
+      "total_flashes": 10
+    }
+  }
