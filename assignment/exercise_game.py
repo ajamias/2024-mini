@@ -5,8 +5,10 @@ Response time - single-threaded
 from machine import Pin
 import time
 import random
+import uresquests as requests
 import json
-import os
+import network
+SSID = "BU Guest (unencrypted)"
 
 
            
@@ -14,10 +16,21 @@ import os
     
 
 
-N: int = 3
-sample_ms = 10.0
+N = 10.0
 on_ms = 500
+FIREBASE_URL = ""
 
+def connect_wifi():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    if not wlan.isconnected():
+        print("loading")
+        wlan.connect(SSID)
+        while not wlan.isconnected():
+            time.sleep(1)
+    print("Connected to:", wlan.ifconfig())
+           
+connect_wifi()
 
 def random_time_interval(tmin: float, tmax: float) -> float:
     """return a random time interval between max and min"""
@@ -84,7 +97,7 @@ def scorer(t: list[int | None]) -> None:
 
     # %% make dynamic filename and write JSON
 
-    now: tuple[int] = time.localtime()
+    now = time.localtime()
 
     now_str = "-".join(map(str, now[:3])) + "T" + "_".join(map(str, now[3:6]))
     
@@ -96,7 +109,11 @@ def scorer(t: list[int | None]) -> None:
 
     write_json(filename, data)
 
-    return data
+    try:
+           response = requests.post(FIREBASE_URL, json=data)
+           print(f"Data uploaded. Status code: {response_code}")
+    except Exception as e:
+           print(f"unable to upload: {e}")
 
 
 if __name__ == "__main__":
@@ -105,15 +122,14 @@ if __name__ == "__main__":
     led = Pin("LED, Pin.OUT)
     button = Pin(16, Pin.IN, Pin.PULL_UP)
 
-    t: list[int | None] = []
-
+    t = []
+    #indicate start game
     blinker(3, led)
 
     for i in range(N):
         time.sleep(random_time_interval(0.5, 5.0))
 
         led.high()
-
         tic = time.ticks_ms()
         t0 = None
         while time.ticks_diff(time.ticks_ms(), tic) < on_ms:
