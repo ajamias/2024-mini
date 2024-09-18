@@ -18,7 +18,7 @@ SSID = "BU Guest (unencrypted)"
 
 N = 10.0
 on_ms = 500
-FIREBASE_URL = "https://miniproject-e0f4f-default-rtdb.firebaseio.com/"
+FIREBASE_URL = "https://minipro-c5169-default-rtdb.firebaseio.com/"
 
 def connect_wifi():
     wlan = network.WLAN(network.STA_IF)
